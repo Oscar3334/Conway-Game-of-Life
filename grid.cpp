@@ -1,4 +1,5 @@
 #include "grid.hpp"
+#include <fstream>
 
 Grid::Grid(int numRows, int numCols, float tileX, float tileY) {
     this->numRows = numRows+2;
@@ -7,6 +8,30 @@ Grid::Grid(int numRows, int numCols, float tileX, float tileY) {
     next    = std::vector<std::vector<bool>> (this->numRows, std::vector<bool> (this->numCols, 0));
     this->tileX = tileX;
     this->tileY = tileY;
+}
+
+Grid::Grid(std::ifstream& csv, float tileX, float tileY) {
+    this->tileX = tileX;
+    this->tileY = tileY;
+    current = std::vector<std::vector<bool>> (1, std::vector<bool> (0, 0));
+    std::string line;
+    int i = 1;
+    while (csv) {
+        std::getline(csv, line);
+        current.push_back(std::vector<bool>(1, 0));
+        for (char j : line) {
+            if (j == '0' || j == '1') {
+                current[i].push_back(j == '1');
+            }
+        }
+        current[i].push_back(0);
+        i++;
+    }
+    current[0] = std::vector<bool> (current[1].size(), 0);
+    current.push_back(std::vector<bool> (current[0].size(), 0));
+    next = std::vector<std::vector<bool>> (current.size(), std::vector<bool> (current[1].size(), 0));
+    numRows = current.size()-2;
+    numCols = current[0].size()-2;
 }
 
 bool Grid::get(int row, int col) const {

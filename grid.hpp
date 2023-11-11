@@ -2,10 +2,12 @@
 #define GRID_HPP
 
 #include <vector>
+#include <fstream>
 
 class Grid {
 public:
     Grid(int, int, float, float);
+    Grid(std::ifstream&, float, float);
     void set(int, int, bool);
     void update();
     bool get(int, int) const;

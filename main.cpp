@@ -4,6 +4,7 @@
 #include "grid.hpp"
 #include "camera.hpp"
 #include <iostream>
+#include <fstream>
 
 int main(int argc, char** argv) {
     constexpr int SCREEN_SIZE_X = 640;
@@ -27,7 +28,14 @@ int main(int argc, char** argv) {
     constexpr float TILE_SIZE_X = 20.0;
     constexpr float TILE_SIZE_Y = 20.0;
     
-    Grid* grid = new Grid(50, 50, TILE_SIZE_X, TILE_SIZE_Y);
+    Grid* grid;
+    if (argc == 1) {
+        grid = new Grid(50, 50, TILE_SIZE_X, TILE_SIZE_Y);
+    } else {
+        std::ifstream csv (argv[1]);
+        grid = new Grid(csv, TILE_SIZE_X, TILE_SIZE_Y);
+        csv.close();
+    }
     Camera* camera = new Camera(0, 0, window);
     
     grid->set(3, 4, 1);
