@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     constexpr float TILE_SIZE_Y = 20.0;
     
     Grid* grid = new Grid(50, 50, TILE_SIZE_X, TILE_SIZE_Y);
-    Camera* camera = new Camera(0, 0, SCREEN_SIZE_X, SCREEN_SIZE_Y);
+    Camera* camera = new Camera(0, 0, window);
     
     grid->set(3, 4, 1);
     grid->set(4, 5, 1);

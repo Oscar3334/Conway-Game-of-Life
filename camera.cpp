@@ -3,10 +3,9 @@
 #include "SDL2/SDL.h"
 #include <cmath>
 
-Camera::Camera(float x, float y, int width, int height) {
+Camera::Camera(float x, float y, SDL_Window* window) {
     this->go(x,y);
-    this->width = (float) width;
-    this->height = (float) height;
+    this->window = window;
 }
 
 void Camera::go(float x, float y) {
@@ -20,7 +19,9 @@ void Camera::move(float deltaX, float deltaY) {
 }
 
 void Camera::drawGrid(SDL_Renderer* renderer, Grid* grid, float scale) {
-    const float borderPercent = .025;
+    const float borderPercent = .05;
+    int width, height;
+    SDL_GetWindowSize(window, &width, &height);
     float tileX  = scale * grid->tileWidth();
     float tileY  = scale * grid->tileHeight();
     float startX = -std::fmod(x, tileX);
@@ -55,10 +56,10 @@ void Camera::drawGrid(SDL_Renderer* renderer, Grid* grid, float scale) {
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             }
             SDL_FRect rect = {
-                startX + (j+colOffset-borderPercent)*tileX,
-                startY + (i+rowOffset-borderPercent)*tileY,
-                (1-borderPercent*2)*tileX,
-                (1-borderPercent*2)*tileY};
+                startX + (j+colOffset)*tileX,
+                startY + (i+rowOffset)*tileY,
+                (1-borderPercent)*tileX,
+                (1-borderPercent)*tileY};
             SDL_RenderFillRectF(renderer, &rect);
         }
     }
