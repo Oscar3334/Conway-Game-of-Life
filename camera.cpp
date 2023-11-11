@@ -24,8 +24,8 @@ void Camera::drawGrid(SDL_Renderer* renderer, Grid* grid) {
     float tileY  = grid->tileHeight();
     float startX = -std::fmod(x, tileX);
     float startY = -std::fmod(y, tileY);
-    int startRow = x / tileX;
-    int startCol = y / tileY;
+    int startRow = y / tileY;
+    int startCol = x / tileX;
     int numRows  = (int) std::ceil((height - startY)/ tileY);
     int numCols  = (int) std::ceil((width - startX) / tileX);
     for (int i = 0; i < numRows; i++) {
@@ -36,6 +36,8 @@ void Camera::drawGrid(SDL_Renderer* renderer, Grid* grid) {
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             }
             SDL_FRect rect = {startX + j*tileX, startY + i*tileY, tileX, tileY};
+            rect.w -= 1.0;
+            rect.h -= 1.0;
             SDL_RenderFillRectF(renderer, &rect);
         }
     }

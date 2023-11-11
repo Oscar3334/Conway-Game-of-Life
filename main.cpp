@@ -35,24 +35,66 @@ int main(int argc, char** argv) {
     grid->set(5, 4, 1);
     grid->set(5, 3, 1);
     
-    int max_game_loops = 50;
-
-    //game loops
-    while (max_game_loops >= 0) {
+    bool quit = 0;
+    bool simulate = 0;
+    bool step = 0;
+    //game loop
+    while (!quit) {
+        //events
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_KEYDOWN:
+                    if (event.key.repeat) break;
+                    switch (event.key.keysym.sym) {
+                        case SDLK_SPACE:
+                            simulate ^= 1;
+                            break;
+                        case SDLK_RETURN:
+                            step = 1;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SDL_QUIT:
+                    quit = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+        const Uint8* keyStates = SDL_GetKeyboardState(nullptr);
+        if (keyStates[SDL_SCANCODE_LEFT]) {
+            camera->move(-5, 0);
+        }
+        if (keyStates[SDL_SCANCODE_RIGHT]) {
+            camera->move(5, 0);
+        }
+        if (keyStates[SDL_SCANCODE_UP]) {
+            camera->move(0, -5);
+        }
+        if (keyStates[SDL_SCANCODE_DOWN]) {
+            camera->move(0, 5);
+        }
+        
+        //state updates
+        if (simulate || step) {
+            grid->update();
+            step = 0;
+        }
+        
+        //render
         SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
         SDL_RenderClear(renderer);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         
         camera->drawGrid(renderer, grid);
-        camera->move(7.5, 7.5);
         
         SDL_RenderPresent(renderer);
         SDL_Delay(100);
-        
-        grid->update();
 
-        max_game_loops--;
     }
         
     SDL_DestroyWindow(window);
