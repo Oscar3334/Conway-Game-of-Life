@@ -1,3 +1,15 @@
 # Conway-Game-of-Life
 
-This will be my attempt at making Conway's game of life using SDL.
+Conway's game of life using SDL and CMake.
+
+Run using
+```
+cmake .
+```
+And then
+```
+make
+```
+```
+./conway.out
+```
