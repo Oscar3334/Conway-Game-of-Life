@@ -11,5 +11,5 @@ And then
 make
 ```
 ```
-./conway.out
+./conway
 ```
