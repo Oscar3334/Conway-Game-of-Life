@@ -3,6 +3,7 @@
 #include <vector>
 #include "grid.hpp"
 #include "camera.hpp"
+#include <iostream>
 
 int main(int argc, char** argv) {
     constexpr int SCREEN_SIZE_X = 640;
@@ -26,8 +27,8 @@ int main(int argc, char** argv) {
     constexpr float TILE_SIZE_X = 20.0;
     constexpr float TILE_SIZE_Y = 20.0;
     
-    Grid* grid = new Grid(100, 100, TILE_SIZE_X, TILE_SIZE_Y);
-    Camera* camera = new Camera(0.0, 0.0, SCREEN_SIZE_X, SCREEN_SIZE_Y);
+    Grid* grid = new Grid(50, 50, TILE_SIZE_X, TILE_SIZE_Y);
+    Camera* camera = new Camera(0, 0, SCREEN_SIZE_X, SCREEN_SIZE_Y);
     
     grid->set(3, 4, 1);
     grid->set(4, 5, 1);
@@ -35,11 +36,14 @@ int main(int argc, char** argv) {
     grid->set(5, 4, 1);
     grid->set(5, 3, 1);
     
+    float scale = 1.0;
+
     bool quit = 0;
     bool simulate = 0;
     bool step = 0;
     //game loop
     while (!quit) {
+//        std::clog << 
         //events
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -51,7 +55,14 @@ int main(int argc, char** argv) {
                             simulate ^= 1;
                             break;
                         case SDLK_RETURN:
+                            simulate = 0;
                             step = 1;
+                            break;
+                        case SDLK_EQUALS:
+                            scale += .05;
+                            break;
+                        case SDLK_MINUS:
+                            scale -= .05;
                             break;
                         default:
                             break;
@@ -90,7 +101,7 @@ int main(int argc, char** argv) {
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         
-        camera->drawGrid(renderer, grid);
+        camera->drawGrid(renderer, grid, scale);
         
         SDL_RenderPresent(renderer);
         SDL_Delay(100);
