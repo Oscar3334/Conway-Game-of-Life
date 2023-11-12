@@ -38,12 +38,6 @@ int main(int argc, char** argv) {
     }
     Camera* camera = new Camera(0, 0, window);
     
-    grid->set(3, 4, 1);
-    grid->set(4, 5, 1);
-    grid->set(5, 5, 1);
-    grid->set(5, 4, 1);
-    grid->set(5, 3, 1);
-    
     float scale = 1.0;
 
     bool quit = 0;
@@ -75,6 +69,16 @@ int main(int argc, char** argv) {
                         default:
                             break;
                     }
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    if (simulate != 0) break;
+                    int row, col;
+                    camera->mapMouseToGrid(
+                        grid, scale,
+                        event.button.x, event.button.y,
+                        &row, &col
+                    );
+                    grid->change(row, col);
                     break;
                 case SDL_QUIT:
                     quit = true;

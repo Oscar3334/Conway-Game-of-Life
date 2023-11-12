@@ -18,6 +18,13 @@ void Camera::move(float deltaX, float deltaY) {
     y += deltaY;
 }
 
+void Camera::mapMouseToGrid(Grid* grid, float scale, int mouseX, int mouseY, int* row, int* col) {
+    float tileX = scale * grid->tileWidth();
+    float tileY = scale * grid->tileHeight();
+    *row = (y+mouseY) / tileY;
+    *col = (x+mouseX) / tileX;
+}
+
 void Camera::drawGrid(SDL_Renderer* renderer, Grid* grid, float scale) {
     const float borderPercent = .05;
     int width, height;

@@ -1,5 +1,6 @@
 #include "grid.hpp"
 #include <fstream>
+#include <iostream>
 
 Grid::Grid(int numRows, int numCols, float tileX, float tileY) {
     this->numRows = numRows+2;
@@ -30,8 +31,8 @@ Grid::Grid(std::ifstream& csv, float tileX, float tileY) {
     current[0] = std::vector<bool> (current[1].size(), 0);
     current.push_back(std::vector<bool> (current[0].size(), 0));
     next = std::vector<std::vector<bool>> (current.size(), std::vector<bool> (current[1].size(), 0));
-    numRows = current.size()-2;
-    numCols = current[0].size()-2;
+    numRows = current.size();
+    numCols = current[0].size();
 }
 
 bool Grid::get(int row, int col) const {
@@ -74,4 +75,8 @@ void Grid::update() {
         }
     }
     std::swap(current, next);
+}
+
+void Grid::change(int row, int col) {
+    current[row+1][col+1] = !current[row+1][col+1];
 }
