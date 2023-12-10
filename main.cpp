@@ -33,7 +33,8 @@ int main(int argc, char** argv) {
     
     Grid* grid;
     if (argc == 1) {
-        grid = new Grid(1000, 1000, TILE_SIZE_X, TILE_SIZE_Y);
+//        grid = new Grid(27, 10, TILE_SIZE_X, TILE_SIZE_Y);
+        grid = new Grid(100, 10, TILE_SIZE_X, TILE_SIZE_Y);
     } else {
         std::ifstream csv (argv[1]);
         grid = new Grid(csv, TILE_SIZE_X, TILE_SIZE_Y);
@@ -122,7 +123,7 @@ int main(int argc, char** argv) {
         SDL_RenderPresent(renderer);
         //SDL_Delay(100);
         int timeDiff = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - (int) ms;
-        std::clog << "\rTime per frame: " << timeDiff << "ms, fps: " << 1000.0/timeDiff << "             ";
+        //std::clog << "\rTime per frame: " << timeDiff << "ms, fps: " << 1000.0/timeDiff << "             ";
     }
         
     SDL_DestroyWindow(window);

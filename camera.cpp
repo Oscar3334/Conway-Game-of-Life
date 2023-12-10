@@ -2,6 +2,7 @@
 #include "grid.hpp"
 #include "SDL2/SDL.h"
 #include <cmath>
+#include <iostream>
 
 Camera::Camera(float x, float y, SDL_Window* window) {
     this->go(x,y);
@@ -14,6 +15,10 @@ void Camera::go(float x, float y) {
 }
 
 void Camera::move(float deltaX, float deltaY) {
+#if 1
+    using namespace std;
+    clog << x << " " << y << " ";
+#endif
     x += deltaX;
     y += deltaY;
 }

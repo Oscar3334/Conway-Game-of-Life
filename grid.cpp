@@ -14,12 +14,12 @@ Grid::Grid(int numRows, int numCols, float tileX, float tileY) {
 Grid::Grid(std::ifstream& csv, float tileX, float tileY) {
     this->tileX = tileX;
     this->tileY = tileY;
-    current = std::vector<std::vector<bool>> (1, std::vector<bool> (0, 0));
     std::string line;
+    std::getline(csv,line);
+    current = std::vector<std::vector<bool>> (1, std::vector<bool> (line.size()+2, 0));
     int i = 1;
-    while (csv) {
-        std::getline(csv, line);
-        current.push_back(std::vector<bool>(1, 0));
+    while (true) {
+        current.push_back(std::vector<bool>{0});
         for (char j : line) {
             if (j == '0' || j == '1') {
                 current[i].push_back(j == '1');
@@ -27,15 +27,40 @@ Grid::Grid(std::ifstream& csv, float tileX, float tileY) {
         }
         current[i].push_back(0);
         i++;
+        if (csv) std::getline(csv, line);
+        else break;
     }
-    current[0] = std::vector<bool> (current[1].size(), 0);
+    current.pop_back();
     current.push_back(std::vector<bool> (current[0].size(), 0));
+    using namespace std;
+    clog << current.size() << endl;
+    clog << current[0].size() << endl;
+    
     next = std::vector<std::vector<bool>> (current.size(), std::vector<bool> (current[1].size(), 0));
     numRows = current.size();
     numCols = current[0].size();
+     for (auto& i : current) {
+        for (int j = 0; j < i.size(); j++) {
+            clog << i[j] << "";
+        } clog << endl;
+    }
+     
+    clog << endl;
+    for (auto& i : next) {
+        for (int j = 0; j < i.size(); j++) {
+            clog << i[j] << "";
+        } clog << endl;
+    }
+    this->numRows = current.size();
+    this->numCols = current[0].size();
 }
 
 bool Grid::get(int row, int col) const {
+    if (row >= numRows || col >= numCols) {
+        using namespace std;
+        clog << "row: " << row << " col: " << col << endl;
+        return 0;
+    }
     return current[row+1][col+1];
 }
     
