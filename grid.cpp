@@ -56,11 +56,7 @@ Grid::Grid(std::ifstream& csv, float tileX, float tileY) {
 }
 
 bool Grid::get(int row, int col) const {
-    if (row >= numRows || col >= numCols) {
-        using namespace std;
-        clog << "row: " << row << " col: " << col << endl;
-        return 0;
-    }
+    if (row >= numRows-2 || col >= numCols-2) return 0;
     return current[row+1][col+1];
 }
     

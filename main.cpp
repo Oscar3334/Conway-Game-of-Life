@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
     Grid* grid;
     if (argc == 1) {
 //        grid = new Grid(27, 10, TILE_SIZE_X, TILE_SIZE_Y);
-        grid = new Grid(100, 10, TILE_SIZE_X, TILE_SIZE_Y);
+        grid = new Grid(100, 100, TILE_SIZE_X, TILE_SIZE_Y);
     } else {
         std::ifstream csv (argv[1]);
         grid = new Grid(csv, TILE_SIZE_X, TILE_SIZE_Y);
