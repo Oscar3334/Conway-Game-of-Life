@@ -15,10 +15,6 @@ void Camera::go(float x, float y) {
 }
 
 void Camera::move(float deltaX, float deltaY) {
-#if 1
-    using namespace std;
-    clog << x << " " << y << " ";
-#endif
     x += deltaX;
     y += deltaY;
 }
@@ -26,6 +22,10 @@ void Camera::move(float deltaX, float deltaY) {
 void Camera::mapMouseToGrid(Grid* grid, float scale, int mouseX, int mouseY, int* row, int* col) {
     float tileX = scale * grid->tileWidth();
     float tileY = scale * grid->tileHeight();
+    int width, height;
+    SDL_GetWindowSize(window, &width, &height);
+    float x = (this->x+width/2.0) * scale - width/2.0;
+    float y = (this->y+height/2.0) * scale - height/2.0;
     *row = (y+mouseY) / tileY;
     *col = (x+mouseX) / tileX;
 }
@@ -36,6 +36,8 @@ void Camera::drawGrid(SDL_Renderer* renderer, Grid* grid, float scale) {
     SDL_GetWindowSize(window, &width, &height);
     float tileX  = scale * grid->tileWidth();
     float tileY  = scale * grid->tileHeight();
+    float x = (this->x+width/2.0) * scale - width/2.0;
+    float y = (this->y+height/2.0) * scale - height/2.0;
     float startX = -std::fmod(x, tileX);
     float startY = -std::fmod(y, tileY);
     int startRow = y / tileY;
